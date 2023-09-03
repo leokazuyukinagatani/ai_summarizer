@@ -1,15 +1,26 @@
 import { useState } from "react";
 //@ts-ignore
 import { copy, linkIcon, loader, tick } from "../assets";
+import { useLazyGetSummaryQuery } from "../services/article";
 
 export function Demo() {
   const [article, setArticle] = useState({
     url: "",
     summary: "",
   });
+  const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    alert("Submmitted");
+    e.preventDefault();
+
+    const { data } = await getSummary({
+      articleUrl: article.url,
+    });
+    if (data?.summary) {
+      const newArticle = { ...article, summary: data.summary };
+      console.log(newArticle);
+      setArticle(newArticle);
+    }
   };
   const handleChangeArticleUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
     setArticle({
@@ -25,7 +36,7 @@ export function Demo() {
         <form
           className="relative flex justify-center items-center"
           action=""
-          onSubmit={() => {}}
+          onSubmit={(e) => handleSubmit(e)}
         >
           <img
             src={linkIcon}
