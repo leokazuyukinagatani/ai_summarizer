@@ -1,10 +1,19 @@
-
+import "./App.css";
+import { Demo } from "./components/Demo";
+import { Hero } from "./components/Hero";
 
 function App() {
-
   return (
-   <h1>Hello World</h1>
-  )
+    <main>
+      <div className="main">
+        <div className="gradient" />
+      </div>
+      <div className="app">
+        <Hero />
+        <Demo />
+      </div>
+    </main>
+  );
 }
 
-export default App
+export default App;
